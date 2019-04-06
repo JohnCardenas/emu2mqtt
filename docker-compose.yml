@@ -1,0 +1,18 @@
+version: '2'
+services:
+  emu2mqtt:
+    build: .
+    container_name: emu2mqtt
+    devices:
+      - /dev/ttyACM0
+    environment:
+      - MQTT_CLIENT_NAME=${MQTT_CLIENT_NAME}
+      - MQTT_SERVER=${MQTT_SERVER}
+      - MQTT_PORT=${MQTT_PORT}
+      - MQTT_USERNAME=${MQTT_USERNAME}
+      - MQTT_PASSWORD=${MQTT_PASSWORD}
+      - MQTT_TOPIC=${MQTT_TOPIC}
+      - MQTT_QOS=${MQTT_QOS}
+      - SERIAL_PORT=${SERIAL_PORT}
+    image: johncardenas/emu2mqtt:latest
+    restart: always

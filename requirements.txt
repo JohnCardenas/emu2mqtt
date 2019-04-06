@@ -1,2 +1,2 @@
--r Emu-Serial-API/requirements.txt
+-r ./emu-requirements.txt
 paho-mqtt==1.4.0

@@ -30,7 +30,7 @@ def get_price(obj):
 
 def publish_message(mqttc, message):
     logging.info(message)
-    publish_msg = mqttc.publish(message["topic"], message["value"], args.mqtt_qos, False)
+    publish_msg = mqttc.publish(message["topic"], message["value"], int(args.mqtt_qos), False)
     publish_msg.wait_for_publish()
 
 def on_sigint(sig, frame):
@@ -62,9 +62,9 @@ def main():
 
     mqttc.on_connect = on_mqtt_connect
     mqttc.on_disconnect = on_mqtt_disconnect
-    mqttc.will_set(args.mqtt_topic + "/lwt", "offline", args.mqtt_qos, True)
+    mqttc.will_set(args.mqtt_topic + "/lwt", "offline", int(args.mqtt_qos), True)
     mqttc.username_pw_set(args.mqtt_username, args.mqtt_password)
-    mqttc.connect_async(args.mqtt_server, args.mqtt_port, 60)
+    mqttc.connect_async(args.mqtt_server, int(args.mqtt_port), 60)
 
     emuc.start_serial()
     logging.info("Connected to EMU serial")
@@ -92,7 +92,7 @@ def main():
         logging.debug("Checking for serial messages")
 
         if mqttc.connected_flag:
-            lwt_msg = mqttc.publish(args.mqtt_topic + "/lwt", "online", args.mqtt_qos, True)
+            lwt_msg = mqttc.publish(args.mqtt_topic + "/lwt", "online", int(args.mqtt_qos), True)
             lwt_msg.wait_for_publish()
 
         try:
